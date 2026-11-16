@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deteccion-incidentes-microservicios"
+version = "2.0.0"
+description = "Práctica 8: microservicios para detección de incidentes con YOLO, Ollama y PWA"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = [
+    "computer-vision",
+    "yolo",
+    "ollama",
+    "fastapi",
+    "microservices",
+    "pwa",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+dependencies = [
+    "ultralytics>=8.3",
+    "opencv-python>=4.10",
+    "numpy>=1.26",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+central = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "pydantic>=2.6",
+    "httpx>=0.27",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+incidentes-stack = "incidentes.cli.stack:main"
+incidentes-smoke = "incidentes.cli.smoke_test:main"
+
+[tool.setuptools.packages.find]
+include = ["incidentes*"]
+
+[tool.setuptools.package-data]
+"incidentes.services.gateway" = ["web/*", "web/icons/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["incidentes"]
