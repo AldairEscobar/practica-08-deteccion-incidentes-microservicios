@@ -195,10 +195,10 @@ Con los cuatro servicios en marcha:
 
 ```text
 health: {"status":"ok","gateway":"ok","servicios":{
-  "camaras":{"status":"ok","camaras":0,"en_vivo":0},
-  "inferencia":{"status":"ok","model":"yolo11n.pt","ollama":false,
-                "model_loaded":true,"camaras":0},
-  "alertas":{"status":"ok","alertas":0}}}
+  "camaras":{"status":"ok","camaras":1,"en_vivo":1},
+  "inferencia":{"status":"ok","model":"yolo11n.pt","ollama":true,
+                "model_loaded":true,"camaras":1},
+  "alertas":{"status":"ok","alertas":5}}}
 
 PWA: 200 · HTML con <title>
 alta de cámara: 201 · estado "conectando"
@@ -206,13 +206,15 @@ listado: 200 · 1 cámara
 snapshot: 200 · JPEG de 6288 bytes
 stream: 200 · multipart/x-mixed-replace; boundary=frame
 POST /v1/analizar: 200 · frame anotado · 0.4 s (tras calentar YOLO)
+end-to-end: 201 · ALT-20261117-0004 · PELEA 0.95 · evidencia JPEG
 baja: 200 · {"removed":"cam-..."}
 ```
 
-La prueba de pipeline usó un MP4 local como fuente. Ollama no estaba arrancado
-en ese entorno; por eso `ollama: false` y no se generaron alertas confirmadas.
-La verificación con Ollama es la misma ruta que ya validaba la práctica 7 y se
-mantiene cubierta por los tests con dobles.
+La prueba de pipeline usó un MP4 local como fuente. En una segunda ejecución
+con Ollama encendido y `qwen2.5vl:7b`, el pipeline confirmó una PELEA con
+confianza 0.95 y generó el ticket `ALT-20261117-0004` con evidencia JPEG. La
+verificación real quedó validada de extremo a extremo, además de los tests con
+dobles.
 
 ### Arranque ordenado
 
